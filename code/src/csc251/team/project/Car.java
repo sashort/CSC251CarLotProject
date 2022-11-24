@@ -95,11 +95,11 @@ public class Car {
 	
 	public void setModel(String model) { this.model = model; }
 	
-	public int getMileage() { return mileage; }
+	public Integer getMileage() { return (getState() == State.UNPURCHASED) ? null : mileage; }
 	
 	public void setMileage(int mileage) { this.mileage = mileage; }
 	
-	public int getMpg() { return mpg; }
+	public Integer getMpg() { return (getState() == State.UNPURCHASED) ? null : mpg; }
 	
 	public void setMpg(int mpg) { this.mpg = mpg; }
 	
@@ -107,7 +107,7 @@ public class Car {
 	
 	public void setCost(double cost) { this.cost = cost; } 
 	
-	public double getSalesPrice() { return salesPrice; }
+	public Double getSalesPrice() { return (getState() == State.UNPURCHASED) ? null : salesPrice; }
 	
 	public void setSalesPrice(double salesPrice) { this.salesPrice = salesPrice; }
 	
@@ -115,11 +115,11 @@ public class Car {
 	
 	public void setSold(boolean sold) { this.sold = sold; }
 	
-	public double getSoldFor() { return soldFor; }
+	public Double getSoldFor() { return (getState() == State.SOLD) ? soldFor : null; }
 	
 	public void setSoldFor(double soldFor) { this.soldFor = soldFor; }
 	
-	public double getProfit() { return profit; }
+	public Double getProfit() { return (getState() == State.SOLD) ? profit : null; }
 	
 	public void setProfit(double profit) { this.profit = profit; } 
 	

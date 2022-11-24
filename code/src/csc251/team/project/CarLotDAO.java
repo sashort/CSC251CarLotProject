@@ -25,9 +25,15 @@ public class CarLotDAO {
 		public static final int UNSOLD = 3;           // |      X      |     X    |      |
 		public static final int ANY = 7;              // |      X      |     X    |   X  |
                                                       // |-------------|----------|------|
-		public static final int ALLOW_DUPLICATES = 8; // For when you've purchased the same car more than once.
+		public static final int ALLOW_MULTIPLES = 8; // For when you've purchased the same car more than once.
 		                                              // If false, will only return the car with with the highest
 		                                              // purchaseIndex for each matching VIN.
+		
+		public static final int PURCHASED_ALLOW_MULTIPLES = 14;
+		public static final int SOLD_ALLOW_MULTIPLES = 12;
+		public static final int NOT_IN_STOCK_ALLOW_MULTIPLES = 13;
+		public static final int ANY_ALLOW_MULTIPLES = 15;
+		
 
 	}
 	
@@ -111,13 +117,13 @@ public class CarLotDAO {
 						// and reevaluate if you can add any more records matching the specific VIN.
 						if (rsSpecific.wasNull() && (filterKey & FilterKeys.IN_STOCK) == FilterKeys.IN_STOCK) {
 							list.add(createCar(rsSpecific));
-							canAdd = (filterKey & FilterKeys.ALLOW_DUPLICATES) == FilterKeys.ALLOW_DUPLICATES;
+							canAdd = (filterKey & FilterKeys.ALLOW_MULTIPLES) == FilterKeys.ALLOW_MULTIPLES;
 						}
 						// if the specific car is sold and the filter allows sold vehicles, add to list,
 						// and reevaluate if you can add any more records matching the specific VIN.
 						else if (!rsSpecific.wasNull() && (filterKey & FilterKeys.SOLD) == FilterKeys.SOLD) {
 							list.add(createCar(rsSpecific));
-							canAdd = (filterKey & FilterKeys.ALLOW_DUPLICATES) == FilterKeys.ALLOW_DUPLICATES;
+							canAdd = (filterKey & FilterKeys.ALLOW_MULTIPLES) == FilterKeys.ALLOW_MULTIPLES;
 						}
 					}
 					
