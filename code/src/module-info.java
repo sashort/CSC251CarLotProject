@@ -9,5 +9,5 @@ module CSC251_JavaFX_and_MySQL_Project_Template {
 	requires java.sql.rowset;
 	
 	// This package uses JavaFX and MySQL
-	opens contactCRUD to javafx.graphics, javafx.fxml, javafx.base;
+	opens csc251.team.project to javafx.graphics, javafx.fxml, javafx.base;
 }
