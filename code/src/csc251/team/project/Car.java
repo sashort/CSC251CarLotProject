@@ -12,7 +12,6 @@ public class Car {
 	private int mpg;
 	private double cost;
 	private double salesPrice;
-	private boolean sold;
 	private double soldFor;
 	private double profit;
 	
@@ -26,7 +25,6 @@ public class Car {
 		this.setMpg(-1);
 		this.setCost(-1);
 		this.setSalesPrice(-1);
-		this.setSold(false);
 		this.setSoldFor(-1);
 		this.setProfit(-1);
 	}
@@ -47,16 +45,15 @@ public class Car {
 	public String toString() {
 		
 		String printable = String.format("Car: PurchaseIndex: %d,  %s, Mileage: %6d, MPG: %3d, Sold: %4s, Cost: $%7.2f, Selling price: $%7.2f",
-				this.purchaseIndex, this.getId(), this.getMileage(), this.getMpg(), (this.isSold() ? "Yes" : " No"), this.getCost(), this.getSalesPrice());
+				this.getPurchaseIndex(), this.getId(), this.getMileage(), this.getMpg(), (this.getState() == State.SOLD ? "Yes" : " No"), this.getCost(), this.getSalesPrice());
 		
-		printable = printable + (this.isSold() ? 
+		printable = printable + (this.getState() == State.SOLD ? 
 				String.format(", Sold For $%7.2f, Profit: $%7.2f", this.getSoldFor(), this.getProfit()) : "");
 		
 		return printable;
 	}
 		
 	public void sellCar(double priceSold) {
-		this.setSold(true);
 		this.setSoldFor(priceSold);
 		this.setProfit(this.getSoldFor()-this.getCost());
 	}
@@ -67,7 +64,7 @@ public class Car {
 		return vin + ' ' + year + ' ' + make + ' ' + model; 
 	}
 	
-	public int getPurchaseIndex() { return purchaseIndex; }
+	public Integer getPurchaseIndex() { return (getState() == State.UNPURCHASED) ? null : purchaseIndex; }
 	
 	public void setPurchaseIndex( int purchaseIndex ) {
 		if (this.purchaseIndex > 0)
@@ -103,18 +100,14 @@ public class Car {
 	
 	public void setMpg(int mpg) { this.mpg = mpg; }
 	
-	public double getCost() { return cost; }
+	public Double getCost() { return (getState() == State.UNPURCHASED) ? null : cost; }
 	
 	public void setCost(double cost) { this.cost = cost; } 
 	
 	public Double getSalesPrice() { return (getState() == State.UNPURCHASED) ? null : salesPrice; }
 	
 	public void setSalesPrice(double salesPrice) { this.salesPrice = salesPrice; }
-	
-	public boolean isSold() { return sold; }
-	
-	public void setSold(boolean sold) { this.sold = sold; }
-	
+			
 	public Double getSoldFor() { return (getState() == State.SOLD) ? soldFor : null; }
 	
 	public void setSoldFor(double soldFor) { this.soldFor = soldFor; }
@@ -124,11 +117,11 @@ public class Car {
 	public void setProfit(double profit) { this.profit = profit; } 
 	
 	public int getState() {
-		if (isSold())
-			return State.SOLD;
-		if (getPurchaseIndex() < 1)
+		if (purchaseIndex < 1)
 			return State.UNPURCHASED;
-		return State.IN_STOCK;
+		if (soldFor < 0)
+			return State.IN_STOCK;
+		return State.SOLD;
 	}
 	
 	public static final class State {
